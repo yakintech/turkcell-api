@@ -19,7 +19,7 @@ app.use(express.json());
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
     if (email === 'cagatay@mail.com' && password === '123') {
-        const token = jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: '10s' }); // Access token süresi 10 saniye
+        const token = jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: '10m' }); // Access token süresi 10 dakika
         const refreshToken = crypto.randomBytes(64).toString('hex'); // Rastgele oluşturulmuş refresh token
         const refreshTokenExpiry = Date.now() + 7 * 24 * 60 * 60 * 1000; // Refresh token süresi 7 gün
         refreshTokens.push({ token: refreshToken, expiry: refreshTokenExpiry });
@@ -46,7 +46,7 @@ app.post('/token', (req, res) => {
     }
 
     //yeni bir access token oluştur
-    const accessToken = jwt.sign({ email: req.body.email }, process.env.SECRET_KEY, { expiresIn: '10s' }); // Access token süresi 10 saniye
+    const accessToken = jwt.sign({ email: req.body.email }, process.env.SECRET_KEY, { expiresIn: '10m' }); // Access token süresi 10 dakika
     return res.json({ accessToken });
 });
 
